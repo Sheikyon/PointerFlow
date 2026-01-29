@@ -1,0 +1,26 @@
+[build-system]
+requires = ["scikit-build-core >= 0.10.0", "pybind11 >= 2.13.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pointerflow"
+version = "0.1.0"
+description = "High-performance Python library for zero-copy memory mapping."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Developer", email = "dev@pointerflow.ai"}]
+dependencies = ["numpy >= 1.20"]
+
+[tool.scikit-build]
+build-dir = "build/{wheel_tag}"
+install.strip = true
+
+[tool.scikit-build.cmake]
+minimum-version = "3.18"
+build-type = "Release"
+args = ["-DCMAKE_CUDA_FLAGS=-allow-unsupported-compiler"]
+
+[[tool.scikit-build.overrides]]
+if.platform-system = "win32"
+cmake.args = ["-G", "Ninja"]
