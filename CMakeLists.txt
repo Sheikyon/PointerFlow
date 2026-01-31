@@ -14,18 +14,20 @@ find_package(CUDAToolkit REQUIRED)
 
 add_library(pointerflow_native STATIC
     native/pointerflow.cpp
+    native/kernels/flow_kernels.cu
     native/kernels/strided_patch.cu
 )
 
-target_include_directories(pointerflow_native PUBLIC 
+target_include_directories(pointerflow_native PUBLIC
     ${CUDAToolkit_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/native
+    ${CMAKE_CURRENT_SOURCE_DIR}/native/kernels
 )
 
 pybind11_add_module(_core native/bindings.cpp)
 
-target_link_libraries(_core PRIVATE 
-    pointerflow_native 
+target_link_libraries(_core PRIVATE
+    pointerflow_native
     CUDA::cudart
 )
 
